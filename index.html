@@ -15,7 +15,7 @@
 
         <ul class='nav navbar-nav navbar-right'>
           <li><a href='http://seeclickfix.com' target='new'>Dashboard</a></li>
-          <li><a href='http://seeclickfix.com' target='new'>Pothole Evolution</a></li>
+          <li><a href='map2.html' target='new'>Incident Map</a></li>
           <li><a href='http://seeclickfix.com' target='new'>See Click Fix</a></li>
         </ul>
       </div>
@@ -34,7 +34,7 @@
 -->
 <div class="col-md-6 grades">
     <div class="certification-header">
-        <span class="grade-A large">A</span>
+        <span class="grade-A large">?</span>
         <span class="certification-title">Overall Grade</span>
     </div>
 
@@ -50,12 +50,12 @@
 
         <div class="simple-bar-body">
             <div class="progress simple-bar-A ">
-                <div class="progress-bar progress-bar-primary" style="width: 100%">
+                <div class="progress-bar progress-bar-primary" style="width: 57%">
                 </div>
             </div>
 
             <div class="percentage">
-                <span class="percentage-value">100%</span>
+                <span class="percentage-value">57%</span>
             </div>
         </div>
     </div>
@@ -78,7 +78,7 @@
                     <div class="progress simple-bar-A ">
                         <div class="progress-bar progress-bar-primary" style="width: 100%">
                             <div class="percentage">
-                                <span class="percentage-value">100%</span>
+                                <span class="percentage-value">36.3 days</span>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                     <div class="progress simple-bar-A ">
                         <div class="progress-bar progress-bar-primary" style="width: 100%">
                             <div class="percentage">
-                                <span class="percentage-value">100%</span>
+                                <span class="percentage-value">6.9 days</span>
                             </div>
                         </div>
                     </div>
@@ -111,68 +111,23 @@
     </div>
     </div>
 </div>
+
 <div class="col-md-6">
-    <div id="map"></div>
-    <div id="layer_selector" class="cartodb-infobox">
-      <ul>
-        <li data="all" class="selected">All countries</li>
-        <!--<li data="1000">area >1000 km<sup>2</sup></li>
-        <li data="6000">area >6000 km<sup>2</sup></li>
-        <li data="10000">area >10000 km<sup>2</sup></li>
-        <li data="50000">area >50000 km<sup>2</sup></li>-->
-      </ul>
-    </div>
-    <!-- include cartodb.js library -->
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
+</div>
 
-    <script>
-      // create layer selector
-      function createSelector(layer) {
-        var sql = new cartodb.SQL({ user: 'documentation' });
 
-        var $options = $('#layer_selector li');
-        $options.click(function(e) {
-          // get the area of the selected layer
-          var $li = $(e.target);
-          var area = $li.attr('data');
+  <div class="row spacer">
+    <div class="col-md-12"></div>
+  </div>
 
-          // deselect all and select the clicked one
-          $options.removeClass('selected');
-          $li.addClass('selected');
+  <div class="row spacer">
+    <div class="col-md-12"></div>
+  </div>
 
-          // create query based on data from the layer
-          var query = "SELECT * FROM seeclickfixtest1";
-
-          //DO sequal selections here
-          if(area !== 'all') {
-            query = "select * from european_countries_e where area > " + area;
-          }
-
-          // change the query in the layer to update the map
-          layer.setSQL(query);
-        });
-      }
-
-      function main() {
-        cartodb.createVis('map', 'http://khof312.cartodb.com/api/v2/viz/4481db7c-d567-11e4-a8b5-0e0c41326911/viz.json', {
-          tiles_loader: true,
-          center_lat: 50,
-          center_lon: 20,
-          zoom: 3
-        })
-        .done(function(vis, layers) {
-          // layer 0 is the base layer, layer 1 is cartodb layer
-          var subLayer = layers[1].getSubLayer(0);
-          createSelector(subLayer);
-        })
-        .error(function(err) {
-          console.log(err);
-        });
-      }
-
-      window.onload = main;
-    </script>
-    
+<div class="col-md-12">
+  <a href="map.html">
+  <img src="images/pothole_map.png" width="100%">
+  </a>
 </div>
 
 <!-- footer section -->
