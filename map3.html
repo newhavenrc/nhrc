@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Map - Table</title>
+  <meta name="description" content="Template for publishing a map and sortable table">
+  <meta name="author" content="andrewxhill">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="https://cartodb.com/favicon.ico">
+
+  <!-- include cartodb.js library -->
+  <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.12/themes/css/cartodb.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+
+  <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.12/cartodb.js"></script>
+
+  <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.12/cartodb.js"></script>
+  <script src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+
+
+  <style type="text/css">
+    #container {
+      width: 100%;
+      padding-left: 5%;
+      font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+    }
+    #map {width: 90%; height: 750px;}
+
+    /*table style from http://codepen.io/mastastealth/pen/BHJLb*/
+    table { 
+      color: #333;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      width: 90%;
+      /* Table reset stuff */
+      border-collapse: collapse; border-spacing: 0; 
+    }
+        
+    td, th {  border: 0 none; height: 30px; }
+          
+    th {
+      /* Gradient Background */
+      background: linear-gradient(#333 0%,#444 100%);
+      color: #FFF; font-weight: bold;
+      height: 40px;
+      padding: 2px 8px;
+      cursor: pointer;
+    }
+        
+    td { background: #FAFAFA; text-align: center; }
+    td.numeric { color: green;}
+    th:after {
+      content: "▼";
+      font-size: 8px;
+      margin-left: 4px;
+      color: #aaa;
+    }
+
+    /* Zebra Stripe Rows */
+        
+    tr:nth-child(even) td { background: #EEE; } 
+    tr:nth-child(odd) td { background: #FDFDFD; }
+
+    #menu {width: 90%;}
+    .btn {
+      display: inline-block;
+      padding: 6px 8px;
+      color: #fff;
+      font-size: 10px;
+      text-decoration: none;
+      background: #333;
+    }
+    #download {
+      float: right;
+    }
+    .btn:hover {
+      cursor: pointer;
+      background: #555;
+    } 
+    .btn.disable {
+      cursor: crosshair;
+      background: #aaa;
+    } 
+    .col_val {
+      display: none;
+    }
+    .filter {
+      display: none;
+      width: 240px;
+    }
+    #filter{
+      background-color:#4F6877;
+      display:block;
+      padding: 1px 20px 1px 10px;
+      min-height: 25px;
+      line-height: 24px;
+      overflow: hidden;
+      border:0;
+      width:162px;
+      color: white;
+      font-size: 10px;
+      float: left;
+    }
+    .apply {float:left;
+      min-height: 15px;}
+    p {
+      width: 90%;
+    }
+  </style>
+
+  <script>
+  var v, l;
+    $(document).ready(function() {
+
+
+      // CHANGE THESE TWO PARAMETERS TO MODIFY THE PAGE
+      var page_len = 10;
+      var vizjson = "http://khof312.cartodb.com/api/v2/viz/b8b9e2d0-d555-11e4-8878-0e853d047bba/viz.json";
+      // vizjson must be to a public visualization. by default, the top 
+      // layer will be the one shown in the table
+
+      var headers = [];
+      var types = {};
+      var filters = {};
+      var cur_off = 0;
+      var skips = ['the_geom', 'the_geom_webmercator', 'created_at', 'updated_at'];
+      var rows_tot = 0;
+      var num_types = ['numeric', 'integer', 'number', 'double precision'];
+      var primary;
+      cartodb.createVis("map", vizjson, {
+          tiles_loader: true,
+          center_lat: 41.3,
+          center_lon: -72.9,
+          zoom: 12
+        })
+        .done(function(viz, layers){
+          v = viz, l = layers;
+          // console.log(layers.getSu);
+          var lay = layers[layers.length-1];
+          var username = lay.model.attributes.user_name;
+          var table = lay.model.attributes.layer_definition.layers[0].options.layer_name;
+          var sql = cartodb.SQL({ user: username });
+          primary = lay.getSubLayer(layers[layers.length-1].layers.length-1) ;
+        function fillTable(remove){
+          var sqlf = [];
+          for (i in headers){
+            var h = headers[i];
+            if(filters[h]){
+              if (filters[h]=="null"){
+                sqlf.push(" " + h + " is NULL");
+              } else {
+                if(num_types.indexOf(types[h]) > -1){
+                  sqlf.push(" " + h + " = " + parseFloat(filters[h]));
+                } else {
+                  sqlf.push(" " + h + " ilike '" + filters[h] +"'");
+                }
+              }
+            }
+          }
+          if (sqlf.length > 0){
+            var where = ' WHERE ' + sqlf.join(' AND ');
+          } else {
+            var where = ""
+          }
+
+          if (remove){
+            primary.setSQL("SELECT the_geom, the_geom_webmercator, updated_at, created_at, "+headers.join()+" FROM "+table+" "+where);
+            $("#download").attr('href', "http://"+username+".cartodb.com/api/v2/sql?format=geojson&q="+encodeURIComponent("SELECT the_geom, the_geom_webmercator, updated_at, created_at, "+headers.join()+" FROM "+table+" "+where));
+          } else {
+            $("#download").attr('href', "http://"+username+".cartodb.com/api/v2/sql?format=geojson&q="+encodeURIComponent("SELECT the_geom, the_geom_webmercator, updated_at, created_at, "+headers.join()+" FROM "+table));
+          }
+        }
+
+
+        function rowCheck(){
+          if(rows_tot < page_len+cur_off){
+            $('#next').addClass('disable');
+          } else {
+            $('#next').removeClass('disable');
+          }
+          if(cur_off <= 0){
+            $('#last').addClass('disable');
+          } else {
+            $('#last').removeClass('disable');
+          }
+        }
+        $('#next').click(function(){
+          cur_off+=page_len;
+          fillTable(true);
+          rowCheck()
+        });
+        $('#last').click(function(){
+          cur_off-=page_len;
+          fillTable(true);
+          rowCheck()
+        });
+
+      })
+
+      $("form").submit(function (e) {
+          e.preventDefault();
+      });
+    });
+          
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div id="map"></div>
+    <table id="cartodb_table" class="display" cellspacing="0" width="100%">
+    </table>
+    <div id="menu" >
+      <span id="last" class="btn disable">back</span>
+      <span id="next" class="btn">next</span>
+      <a id="download" target=_blank class="btn">download</a>
+    </div>
+    <form class="filter">
+        <input id="filter" class="" placeholder="filter"/>
+        <span type="submit" id="apply" class="apply btn">Apply</span>
+    </form>
+    <div>
+    </div>
+  </div>
+</body>
+</html>
+
