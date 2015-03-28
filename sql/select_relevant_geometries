@@ -1,0 +1,12 @@
+-- Select right census tract
+
+SELECT * FROM nh_census_tracts
+WHERE 
+  (SELECT ST_Extent(the_geom) FROM nh_wards) && the_geom
+  
+  
+-- Select right block
+
+SELECT * FROM nh_census_blocks
+WHERE 
+  (SELECT ST_Extent(the_geom) FROM nh_wards) && the_geom
