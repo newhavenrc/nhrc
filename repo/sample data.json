@@ -1,0 +1,48 @@
+Sample Data
+
+{
+"id": 1556997,
+"status": "Closed",
+"summary": "Residential Parking Permit Violation",
+"description": "",
+"rating": 1,
+"lat": 38.9246253967285,
+"lng": -76.9680328369141,
+"address": "2701-2723 28th Street Northeast Washington, DC 20018, USA",
+"closed_at": "2015-03-28T07:39:06-04:00",
+"acknowledged_at": "2015-03-27T22:40:20-04:00",
+"created_at": "2015-03-27T22:32:57-04:00",
+"updated_at": "2015-03-28T07:39:06-04:00",
+"shortened_url": "http://bit.ly/1a1cVv6",
+"point": {
+"type": "Point",
+"coordinates": [
+-76.9680328369141,
+38.9246253967285
+]
+},
+"url": "https://seeclickfix.com/api/v2/issues/1556997",
+"html_url": "https://seeclickfix.com/issues/1556997",
+"comment_url": "https://seeclickfix.com/api/v2/issues/1556997/comments",
+"flag_url": "https://seeclickfix.com/api/v2/issues/1556997/flag",
+"transitions": {
+"open_url": "https://seeclickfix.com/api/v2/issues/1556997/open"
+},
+"reporter": {
+"id": 0,
+"name": "An anonymous SeeClickFix user",
+"witty_title": "Street Smart",
+"role": "Registered User",
+"civic_points": 0,
+"avatar": {
+"full": "https://seeclickfix.com/assets/anonymous-avatar-150x150.png",
+"square_100x100": "https://seeclickfix.com/assets/anonymous-avatar-100x100-34d41f0b4813c29efe18b16f083e0b09.png"
+}
+},
+"media": {
+"video_url": null,
+"image_full": null,
+"image_square_100x100": null,
+"representative_image_url": "https://seeclickfix.com/assets/categories_trans/no-image.png"
+}
+}
