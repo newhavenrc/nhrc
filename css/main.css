@@ -14,6 +14,23 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.remove-padding{
+  padding:0px !important;
+}
+
+.certification-header{
+  padding:10px;
+}
+
+.simple-bar-with-heading{
+  padding: 10px;
+}
+
+.grades{
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
 .d3-window {
   border-radius: 5px;
   border: 2px solid;
@@ -69,22 +86,18 @@ body {
 }
 
 .project-certification {
-  border: 1px solid #ccc;
-  border-radius: 3px;
   box-sizing: border-box;
   padding: 15px;
-  height: 447px;
 }
 
 .project-certification .simple-bars-wrapper .bars-column {
   vertical-align: top;
   box-sizing: border-box;
   display: inline-block;
-  width: 220px;
 }
 
 .project-certification .simple-bars-wrapper .bars-column .simple-bar-with-heading {
-  width: 220px;
+  width: 100%;
   display: inline-block;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
@@ -111,17 +124,15 @@ body {
 .project-certification .simple-bars-wrapper .bars-column .simple-bar-with-heading .simple-bar-body .progress {
   display: inline-block;
   margin-bottom: 0;
-  width: 137px;
+  width: 100%;
   border-radius: 0;
   box-shadow: none;
-  height: 10px;
 }
 
 .project-certification .simple-bars-wrapper .bars-column {
   vertical-align: top;
   box-sizing: border-box;
   display: inline-block;
-  width: 220px;
 }
 
 .project-certification .certification-header .certification-title {
@@ -163,8 +174,6 @@ span[class^="grade-"].large {
 .project-certification .simple-bars-wrapper .bars-column .simple-bar-with-heading .simple-bar-body .percentage {
   display: inline-block;
   font-family: "Bebas Neue";
-  height: 30px;
-  line-height: 30px;
   float: right;
   margin-right: 8px;
 }
