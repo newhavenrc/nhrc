@@ -1,0 +1,2 @@
+UPDATE census_blocks SET issue_count = (SELECT count(*)
+FROM seeclickfix WHERE ST_Intersects(seeclickfix.the_geom, census_blocks.the_geom))
