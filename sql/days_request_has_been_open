@@ -1,3 +1,4 @@
-SELECT DATE_PART('day', created_at - created_at_local) AS n_open
-FROM scf_2014_nhv_service_request_data
-WHERE status_translated IN ('Open')
+
+SELECT *, DATE_PART('day', created_at - created_at_local) AS n_open
+FROM seeclickfix
+WHERE status_translated IN ('Open') 
