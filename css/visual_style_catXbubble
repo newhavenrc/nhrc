@@ -1,0 +1,86 @@
+
+
+#scf_2014_nhv_service_request_data{
+  marker-fill-opacity: 0.5;
+  marker-line-color: black;
+  marker-line-width: 1.5;
+  marker-line-opacity: 0.5;
+  marker-placement: point;
+  marker-multi-policy: largest;
+  marker-type: ellipse;
+  marker-allow-overlap: true;
+  marker-clip: false;
+}
+
+
+  
+/** bubble visualization */
+#scf_2014_nhv_service_request_data [ n_open <= 451] {
+   marker-width: 50.0;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 414.7] {
+   marker-width: 44.6;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 378.4] {
+   marker-width: 39.1;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 342.09999999999997] {
+   marker-width: 33.7;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 305.79999999999995] {
+   marker-width: 28.2;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 269.5] {
+   marker-width: 22.8;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 233.2] {
+   marker-width: 17.3;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 196.89999999999998] {
+   marker-width: 11.9;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 160.6] {
+   marker-width: 6.4;
+}
+#scf_2014_nhv_service_request_data [ n_open <= 124.3] {
+   marker-width: 1.0;
+}
+
+
+
+
+/** category visualization */
+
+#scf_2014_nhv_service_request_data[category="Street Lamp"] {
+   marker-fill: #A6CEE3;
+}
+#scf_2014_nhv_service_request_data[category="Tree Trimming"] {
+   marker-fill: #1F78B4;
+}
+#scf_2014_nhv_service_request_data[category="Public Space, Streets and Drains"] {
+   marker-fill: #B2DF8A;
+}
+#scf_2014_nhv_service_request_data[category="Other"] {
+   marker-fill: #33A02C;
+}
+#scf_2014_nhv_service_request_data[category="Policing Issue"] {
+   marker-fill: #FB9A99;
+}
+#scf_2014_nhv_service_request_data[category="Traffic/Road Safety"] {
+   marker-fill: #E31A1C;
+}
+#scf_2014_nhv_service_request_data[category="Other - city responsibility"] {
+   marker-fill: #FDBF6F;
+}
+#scf_2014_nhv_service_request_data[category="Private Property Issue"] {
+   marker-fill: #FF7F00;
+}
+#scf_2014_nhv_service_request_data[category="Potholes"] {
+   marker-fill: #CAB2D6;
+}
+#scf_2014_nhv_service_request_data[category="Trash & Recycling"] {
+   marker-fill: #6A3D9A;
+}
+#scf_2014_nhv_service_request_data {
+   marker-fill: #DDDDDD;
+}
