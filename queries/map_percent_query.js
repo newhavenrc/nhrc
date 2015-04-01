@@ -30,3 +30,20 @@ query = "SELECT *,
 	FROM seeclickfix
 	WHERE ST_Intersects(seeclickfix.the_geom, " + level + ".the_geom)" + category_restriction + date_restriction + ") PERCENT_CLOSED
 FROM " + level
+
+
+//Alternate query. Runs pretty quickly for me.
+query = "SELECT  polygons.the_geom_webmercator, 
+	count(points.the_geom) AS issue_count, 
+	sum(CASE WHEN points.closed_at_local is not null THEN 1 ELSE 0 END) AS issues_closed, 
+	sum(CASE WHEN points.acknowledged_at_local is not null THEN 1 ELSE 0 END) AS issues_acknowledged, 
+	CAST(sum(CASE WHEN points.acknowledged_at_local is not null THEN 1 ELSE 0 END) AS DECIMAL) / count(points.the_geom) AS pct_acknowledged,
+	CAST(sum(CASE WHEN points.closed_at_local is not null THEN 1 ELSE 0 END) AS DECIMAL) / count(points.the_geom) AS pct_closed, 
+	avg(DATE_PART('day', CASE WHEN points.closed_at_local is null then points.closed_at_local else points.created_at END - points.created_at_local)) AS mean_close_time, 
+	avg(DATE_PART('day', points.acknowledged_at_local - points.created_at_local)) AS mean_acknowledge_time,
+	avg(DATE_PART('day', CASE WHEN points.closed_at_local is null then points.closed_at_local else points.created_at END - points.acknowledged_at_local)) AS mean_acknowledge_to_close
+	FROM " + level + " as polygons LEFT JOIN (select * from seeclickfix where category in ('" + category + "') AND created_at_local <= '" + end_date + "' AND created_at_local >= '" + start_date + "') as points	
+	ON st_contains(polygons.the_geom,points.the_geom) 
+	WHERE ST_Intersects(points.the_geom, polygons.the_geom)
+	GROUP BY polygons.the_geom_webmercator"
+
